@@ -1,0 +1,38 @@
+@import url(https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap);
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	font-family: Poppins;
+}
+
+html {
+	overflow-x: hidden;
+}
+
+#DiplomaRental.loadingCircle {
+	pointer-events: none;
+}
+
+html::-webkit-scrollbar-track,
+::-webkit-scrollbar-track {
+	padding-right: 5px !important;
+	border-radius: 10px;
+	background: transparent !important;
+}
+html::-webkit-scrollbar,
+html::-webkit-scrollbar {
+	width: 12px;
+	background-color: transparent !important;
+	border-radius: 10px;
+}
+html::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb {
+	background-color: #efb467 !important;
+	border-radius: 10px;
+}
+html::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:hover {
+	background: #de8667 !important;
+}
