@@ -6,6 +6,7 @@ export const Background2 = require('./background1.png')
 export const Background2Flipped = require('./background2-flipped.png')
 export const Background3 = require('./background3.png')
 export const Background3Flipped = require('./background3-flipped.png')
+export const CarAvatar = require('./CarAvatar.png')
 
 // ADMIN
 export const ModelImg = require('./Model.png')
