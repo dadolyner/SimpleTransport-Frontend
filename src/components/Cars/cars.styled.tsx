@@ -18,6 +18,7 @@ export const Background = styled.div`
 export const BigParentContainer = styled.div`
 	display: grid;
 	margin-top: 90px;
+    margin-bottom: 10px;
 	grid-template-columns: 30% 70%;
 	z-index: 1;
 	@media only screen and (max-width: 740px) {
