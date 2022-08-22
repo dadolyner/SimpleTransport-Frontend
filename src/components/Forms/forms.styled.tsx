@@ -146,3 +146,17 @@ export const Href = styled.a`
         text-decoration: underline;
     }
 `;
+
+export const ErrorMessage = styled.div`
+    color: red;
+    font-size: 16px;
+    margin: 10px auto;
+    text-align: center;
+`;
+
+export const ConfirmMessage = styled.div`
+    color: green;
+    font-size: 16px;
+    margin: 10px auto;
+    text-align: center;
+`;
