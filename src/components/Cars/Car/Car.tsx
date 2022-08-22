@@ -67,7 +67,7 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
 					<div>{Duration(duration)}</div>
 					<CarPrice>{price} €</CarPrice>
 					<CarReturn className={isFree ? 'free' : 'paid'}>{isFree ? `Brezplačna odpoved` : `Odpoved plačljiva`}</CarReturn>
-					<Button onClick={() => {setToast(true); setTimeout(()=> {setToast(false)}, 5100)}}>Izberi</Button>	
+					<Button onClick={() => {setToast(true); setTimeout(()=> {setToast(false)}, 5100)}}>Rent</Button>	
 				</CarPriceInfo>
 			</Container>
 		</>
