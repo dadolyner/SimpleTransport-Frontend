@@ -1,22 +1,19 @@
 import styled from 'styled-components';
 
 // CONTAINER AND MAIN CONTENT
-type PopupSettings = {
-	size: number;
-};
+type PopupSettings = { size: number; };
 export const PopupContainer = styled.div`
+    &.shown { display: flex; }
 	&.hidden {
 		display: none;
 		opacity: 0;
-	}
-	&.shown {
-		display: flex;
 	}
 	position: fixed;
 	top: 0;
 	left: 0;
 	height: 100vh;
 	width: 100vw;
+    min-width: 250px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -37,9 +34,7 @@ export const HeaderBar = styled.div`
 	position: relative;
 	background: #ccc;
 	height: 24px;
-	&:hover {
-		cursor: move;
-	}
+	&:hover { cursor: move; }
 `;
 export const CloseButton = styled.div`
 	position: absolute;
@@ -93,6 +88,10 @@ export const Form = styled.form`
 	::-webkit-scrollbar-thumb:hover,
 	::-webkit-scrollbar-thumb:hover {
 		background: #aaa !important;
+	}
+
+    @media screen and (max-width: 460px) {
+		grid-template-columns: 100%;
 	}
 `;
 
