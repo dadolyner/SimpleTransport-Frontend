@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
 				</FooterNavigation>
 
 				<Credits>
-					<p>Simple Transport © 2022</p>
+					<p>Simple Transport © { new Date().getFullYear() }</p>
 				</Credits>
 			</Container>
 		</>
