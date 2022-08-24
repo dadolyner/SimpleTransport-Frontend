@@ -28,7 +28,7 @@ type DefaultPopupSettings = {
 
 		value?: string | number;
 		placeholder?: string;
-		
+        
 		options?: string[];
 		html?: string;
 		min?: number;
@@ -208,7 +208,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
                                         <>
 									    	<Label key={label} className={labelAligment} style={{color: text}}>Test Dropdown:</Label>
 									    	<Select key={name} onChange={(e) => handleDropdownValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}>
-									    		{ options.map((option) => { return <option key={option} value={option}>{option}</option> }) }
+									    		{ options.map((option) => { return ( <><option key={option} value={option}>{option}</option></> ) }) }
 									    	</Select>
 									    </>
                                     );
@@ -219,7 +219,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 									    	<Label key={label} className={labelAligment} style={{color: text}}>Test Searchable Select:</Label>
 									    	<Input key={id + name} list={id + 'dropdownItemsList'} onChange={(e) => handleDropdownSearchValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    	<datalist key={name} id={id + 'dropdownItemsList'}>
-									    		{ options.map((option) => { return <option key={option} value={option}>{option}</option> }) }
+									    		{ options.map((option) => { return ( <><option key={option} value={option}>{option}</option></> ) }) }
 									    	</datalist>
 									    </>
                                     );
@@ -297,7 +297,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
                                     );
 								
 								default: 
-									return null;
+									return (<></>);
 							}
 						})}
 					</Form>
