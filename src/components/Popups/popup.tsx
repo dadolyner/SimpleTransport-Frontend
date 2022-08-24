@@ -73,11 +73,11 @@ const uuid = (version: number): string => {
         return uuid.toString(16)
     })
 }
+const id = uuid(4);
 
 // POPUP
 const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
-    const id = uuid(4);
-	const { theme, size, title, labelAligment, inputs, bottomButtons, RetrieveValues } = props
+	const { theme, size, title, labelAligment, inputs, bottomButtons, RetrieveValues, topClose } = props
 	const { primary, primaryDarken, text } = theme
 
 	// STATES FOR VALUES
@@ -142,11 +142,11 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 
 	return (
 		<>
-			<PopupContainer key={id} id={id} className={confirmed === 'hidden' ? 'hidden' : 'shown'}>
+			<PopupContainer id={id} className={confirmed === 'hidden' ? 'hidden' : 'shown'}>
 				<PopupContent size={size} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}>
-					{ props.topClose && 
+					{ topClose && 
 						<HeaderBar style={{ backgroundColor: primaryDarken }}>
-							<CloseButton onClick={() => props.topClose()}>&times;</CloseButton>
+							<CloseButton onClick={() => topClose()}>&times;</CloseButton>
 						</HeaderBar>
 					}	
 					<Title>{title}</Title>
@@ -158,7 +158,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'text': 
 									return ( 
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input key={name} id={name} type={type} name={name} value={textValue ? textValue : value} placeholder={placeholder} onChange={(e) => handleTextValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </>
                                     );
@@ -166,7 +166,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'number': 
 									return ( 
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input key={name} id={name} type={type} name={name} value={numberValue ? numberValue : value} placeholder={placeholder} onChange={(e) => handleNumberValueChange(Number(e.target.value))} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </>
                                     );
@@ -174,7 +174,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'password': 
 									return ( 
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input key={name} id={name} type={type} name={name} value={passwordValue ? passwordValue : value} placeholder={placeholder} onChange={(e) => handlePasswordValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </> 
                                     );
@@ -182,7 +182,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'color': 
 									return ( 
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input id={name} type={type} name={name} value={colorValue ? colorValue : value} placeholder={placeholder} onChange={(e) => handleColorValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </>
                                     );
@@ -190,7 +190,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'button': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input key={name} id={name} type={type} name={name} value={value ? value : ''} placeholder={placeholder}  onClick={() => input.onClick()} style={{ backgroundColor: backgroundColor, color: color ? color : text }}/>
 									    </>
                                     );
@@ -198,7 +198,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'textarea': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<TextArea key={name} id={name} name={name} value={textareaValue ? textareaValue : value} placeholder={placeholder} onChange={(e) => handleTextareaValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </>
                                     );
@@ -206,7 +206,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'dropdown': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>Test Dropdown:</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>Test Dropdown:</Label>
 									    	<Select key={name} onChange={(e) => handleDropdownValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}>
 									    		{ options.map((option) => { return <option key={option} value={option}>{option}</option> }) }
 									    	</Select>
@@ -216,8 +216,8 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'dropdown-search':
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>Test Searchable Select:</Label>
-									    	<Input list={id + 'dropdownItemsList'} onChange={(e) => handleDropdownSearchValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>Test Searchable Select:</Label>
+									    	<Input key={id + name} list={id + 'dropdownItemsList'} onChange={(e) => handleDropdownSearchValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    	<datalist key={name} id={id + 'dropdownItemsList'}>
 									    		{ options.map((option) => { return <option key={option} value={option}>{option}</option> }) }
 									    	</datalist>
@@ -227,7 +227,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'checkbox': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input key={name} id={name} type={type} name={name} placeholder={placeholder} checked={checkboxValue} onChange={(e) => handleCheckboxValueChange(e.target.checked)}/>
 									    </>
                                     );
@@ -235,7 +235,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'html': 
 									return (
                                         <>
-									    	<Label></Label>
+									    	<Label key={label}></Label>
 									    	<Html key={name} dangerouslySetInnerHTML={{ __html: html }} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}></Html>
 									    </>
                                     );
@@ -243,7 +243,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'url': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input key={name} id={name} type={type} name={name} value={urlValue ? urlValue : value} placeholder={placeholder} onChange={(e) => handleUrlValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </>
                                     );
@@ -251,7 +251,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'file':
 								return (
                                     <>
-								    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+								    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 								    	<Input key={name} id={name} type={type} name={name} value={fileValue ? fileValue : value} placeholder={placeholder} onChange={(e) => handleFileValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 								    </>
                                 );
@@ -259,7 +259,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'date': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input key={name} id={name} type={type} name={name} value={dateValue ? dateValue : value} placeholder={placeholder} onChange={(e) => handleDateValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </>
                                     );
@@ -267,7 +267,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'time': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input key={name} id={name} type={type} name={name} value={timeValue ? timeValue : value} placeholder={placeholder} onChange={(e) => handleTimeValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </>
                                     );
@@ -275,7 +275,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'datetime-local': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label}</Label>
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
 									    	<Input key={name} id={name} type={type} name={name} value={datetimeValue ? datetimeValue : value} placeholder={placeholder} onChange={(e) => handleDateTimeValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </>
                                     );
@@ -283,7 +283,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'range': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}>{label} ({rangeValue ? rangeValue : 0})</Label> 
+									    	<Label key={label} className={labelAligment} style={{color: text}}>{label} ({rangeValue ? rangeValue : 0})</Label> 
 									    	<Input key={name} id={name} type={type} name={name} value={rangeValue ? rangeValue : value} step={1} min={min} max={max} placeholder={placeholder} onChange={(e) => handleRangeValueChange(e.target.value)} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}/>
 									    </>
                                     );
@@ -291,8 +291,8 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								case 'spacer': 
 									return (
                                         <>
-									    	<Label key={label + name} className={labelAligment} style={{color: text}}></Label>
-									    	<Divider />
+									    	<Label key={label} className={labelAligment} style={{color: text}}></Label>
+									    	<Divider key={name}/>
 									    </>
                                     );
 								
@@ -305,11 +305,11 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 					<ButtonsContainer>
 						{ bottomButtons.map((button) => {
 							const { name, text, backgroundColor, color, onClick } = button;
-							return( <>
-								<Button key={name} onClick={() => { if(name === 'confirm'){ onClick(); RetrieveValues(PopupConfirm()); } else onClick() }} style={{ backgroundColor: backgroundColor, color: color }}>
-									{text}
-								</Button>
-							</>) 
+							return( 
+                                <>
+								    <Button key={name} onClick={() => { if(name === 'confirm'){ onClick(); RetrieveValues(PopupConfirm()); } else onClick() }} style={{ backgroundColor: backgroundColor, color: color }}>{text}</Button>
+							    </>
+                            ) 
 						})}
 					</ButtonsContainer>
 				</PopupContent>

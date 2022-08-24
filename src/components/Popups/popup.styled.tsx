@@ -34,7 +34,7 @@ export const HeaderBar = styled.div`
 	position: relative;
 	background: #ccc;
 	height: 24px;
-	&:hover { cursor: move; }
+	/* &:hover { cursor: move; } */
 `;
 export const CloseButton = styled.div`
 	position: absolute;

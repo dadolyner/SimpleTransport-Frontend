@@ -9,13 +9,14 @@ const Home: React.FC = () => {
         <>
             <button onClick={() => (popupVisible ? setPopupVisible(false) : setPopupVisible(true))}>Open Popup</button>
             { popupVisible && <Popup
-                active={popupVisible}
-                size={1000}
+                key={'TestPopup'}
+                active={ popupVisible }
+                size={600}
                 title={'Test Popup'}
                 topClose={() => setPopupVisible(false)}
                 labelAligment={'center'}
                 theme={{ primary: '#fff', primaryDarken: '#000', secondary: '#000', secondaryDarken: '#000', text: '#000' }}
-                inputs={[{ type: 'text', label: 'Test Input', name: 'test_input' }]}
+                inputs={[{ type: 'text', label: 'Test Input', name: 'test_input', value: '' }]}
                 bottomButtons={[{ name: 'confirm', text: 'Test Button', onClick: () => {} }]}
                 RetrieveValues={(values) => {
                     setPopupValues(values);
