@@ -43,7 +43,9 @@ type DefaultPopupSettings = {
 		name: string;
 		text: string;
 		color?: string;
-		backgroundColor?: string;
+        colorHover?: string;
+		background?: string;
+        backgroundHover?: string;
 		onClick?: () => any;
 	}>;
 	RetrieveValues: (object: any) => any;
@@ -145,7 +147,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 			<PopupContainer id={id} className={confirmed === 'hidden' ? 'hidden' : 'shown'}>
 				<PopupContent size={size} style={{ backgroundColor: primary, color: text, borderColor: primaryDarken }}>
 					{ topClose && 
-						<HeaderBar style={{ backgroundColor: primaryDarken }}>
+						<HeaderBar style={{ background: primaryDarken }}>
 							<CloseButton onClick={() => topClose()}>&times;</CloseButton>
 						</HeaderBar>
 					}	
@@ -304,10 +306,10 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 
 					<ButtonsContainer>
 						{ bottomButtons.map((button) => {
-							const { name, text, backgroundColor, color, onClick } = button;
+							const { name, color, colorHover, background, backgroundHover, text, onClick } = button;
 							return( 
                                 <>
-								    <Button key={name} onClick={() => { if(name === 'confirm'){ onClick(); RetrieveValues(PopupConfirm()); } else onClick() }} style={{ backgroundColor: backgroundColor, color: color }}>{text}</Button>
+								    <Button key={name} color={color} colorHover={colorHover} background={background} backgroundHover={backgroundHover} onClick={() => { if(name === 'confirm'){ onClick(); RetrieveValues(PopupConfirm()); } else onClick() }}>{text}</Button>
 							    </>
                             ) 
 						})}

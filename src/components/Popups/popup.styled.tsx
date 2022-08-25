@@ -2,12 +2,11 @@ import styled from 'styled-components';
 
 // CONTAINER AND MAIN CONTENT
 type PopupSettings = { size: number; };
+type PopupButton = { color?: string; colorHover?: string; background?: string; backgroundHover?: string; }
+
 export const PopupContainer = styled.div`
     &.shown { display: flex; }
-	&.hidden {
-		display: none;
-		opacity: 0;
-	}
+	&.hidden { display: none; }
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -162,22 +161,25 @@ export const ButtonsContainer = styled.div`
 	align-items: center;
 	margin: 20px 0;
 `;
-export const Button = styled.button`
+export const Button = styled.button<PopupButton>`
 	border: 0;
 	outline: 0;
-	border: 2px solid #ccc;
+	border: 2px solid ${(props) => props.color || '#000'};
 	border-radius: 5px;
 	font-size: 18px;
 	width: fit-content;
+    color: ${(props) => props.color || '#000'};
+    background: ${(props) => props.background || '#fff'};
 	height: 40px;
 	padding: 0 20px;
 	margin: 0 5px;
 	user-select: none;
 	transition: all 0.3s ease-in-out;
 	&:hover {
-		background: #aaa;
+        border: 2px solid ${(props) => props.colorHover || '#fff'};
+        color: ${(props) => props.colorHover || '#fff'};
+		background: ${(props) => props.backgroundHover || '#000'};
 		cursor: pointer;
-		transform: scale(1.01);
 	}
 `;
 
