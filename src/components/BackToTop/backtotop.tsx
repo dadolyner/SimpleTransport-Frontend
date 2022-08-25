@@ -6,7 +6,7 @@ const BackToTop: React.FC = () => {
 
     return (
         <>
-            <Container onClick={backToTop}>
+            <Container onClick={() => backToTop()}>
                 <Content />
             </Container>
         </>

@@ -5,8 +5,8 @@ export const Container = styled.div`
     bottom: 10px;
     left: 10px;
     z-index: 100;
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
     background: linear-gradient(240deg, #efb467 0%, #de8667 100%);
     display: flex;
     justify-content: center;
@@ -15,16 +15,7 @@ export const Container = styled.div`
     cursor: pointer;
     box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease-in-out;
-    &:hover { 
-        width: 40px;
-        height: 40px;
-
-        & div {
-            width: 15px;
-            height: 15px;
-            border-width: 0 5px 5px 0;
-        }
-     }
+    &:hover { background: linear-gradient(240deg, #d4984a 0%, #c26d4f 100%); }
 `;
 
 export const Content = styled.div`
