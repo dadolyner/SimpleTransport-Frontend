@@ -27,10 +27,10 @@ const Login: React.FC = () => {
         
         try { 
             const loginResponse = await axios.post('/auth/login', userData)
-            localStorage.setItem('accessToken', loginResponse.data.accessToken)
-            localStorage.setItem('userLoggedIn', 'true')
+            localStorage.setItem('simpletransport_accessToken', loginResponse.data.accessToken)
+            localStorage.setItem('simpletransport_userLoggedIn', 'true')
             const userInfoResponse = await axios.get('/user/me', { headers: { Authorization: 'Bearer ' + loginResponse.data.accessToken } })
-            localStorage.setItem('userInfo', JSON.stringify(userInfoResponse.data))
+            localStorage.setItem('simpletransport_userInfo', JSON.stringify(userInfoResponse.data))
             navigate('/')
         }
         catch(error) { setErrorMessage(error.response.data.message) }
