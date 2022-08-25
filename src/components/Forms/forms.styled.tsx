@@ -112,6 +112,18 @@ export const HalfWidth = styled.div`
     }
 `;
 
+export const PlaceSelect = styled.select`
+    border: 0;
+    outline: 0;
+    border-bottom: 2px solid #ddd;
+    background: transparent;
+    padding: 14px 0 0 5px;
+    width: 100%;
+    height: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+`;
+
 export const Submit = styled.button`
     outline: none;
     border: none;

@@ -1,20 +1,19 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom'
 import axios from '../../../api/axios'
-import PasswordGenerator from '../../PasswordGenerator/paswordGenerator'
-import { Background, Container, Header, Form, FloatingLabel, HalfWidth, Submit, Href, ErrorMessage } from '../forms.styled'
+import { Background, Container, Header, Form, FloatingLabel, HalfWidth, Submit, Href, ErrorMessage, PlaceSelect } from '../forms.styled'
 
 const Register: React.FC = () => {
     const navigate = useNavigate()
-	
-    const [hidden, setHidden] = React.useState(false)
+
 	const [isNameActive, setIsnameActive] = React.useState(false)
 	const [isSurnameActive, setIsSurnameActive] = React.useState(false)
 	const [isUsernameActive, setIsUsernameActive] = React.useState(false)
 	const [isEmailActive, setIsEmailActive] = React.useState(false)
 	const [isPassActive, setIsPassActive] = React.useState(false)
 	const [isConfPassActive, setIsConfPassActive] = React.useState(false)
-	const [nameValue, setNameValue] = React.useState('')
+	const [isPlaceActive, setIsPlaceActive] = React.useState(false)
+    const [nameValue, setNameValue] = React.useState('')
 	const [surnameValue, setSurnameValue] = React.useState('')
 	const [usernameValue, setUsernameValue] = React.useState('')
 	const [emailValue, setEmailValue] = React.useState('')
@@ -58,6 +57,7 @@ const Register: React.FC = () => {
             
             case 'place':
                 setPlace(text);
+                (text !== '') ? setIsPlaceActive(true) : setIsPlaceActive(false)
                 break
         }
     }
@@ -93,19 +93,6 @@ const Register: React.FC = () => {
 
 	return (
 		<>
-			{ hidden && <PasswordGenerator SendPassword={passwordValue => { 
-					if(passwordValue) { 
-						setPassValue(passwordValue)
-						setConfPassValue(passwordValue)
-						setIsPassActive(true)
-						setIsConfPassActive(true)
-						setHidden(false) 
-					} else {
-						setHidden(false)
-					}
-				}}/>
-			}
-
 			<Background className="register">
 				<Container>
 					<Header>Register</Header>
@@ -135,12 +122,13 @@ const Register: React.FC = () => {
 							</FloatingLabel>
 						</HalfWidth>
 
-                        <select onChange={(e) => handleChange('place', e.target.value)}>
-                            <option key="emptyOption" value="emptyOption"></option>
-                            {apiPlaces.map((place: any) => {
-                                return ( <option key={place.id} value={place.id}>{place.place}</option> )
-                            })}
-                        </select>
+                        <FloatingLabel>
+                            <label htmlFor='place' className={isPlaceActive ? 'Active' : ''}>Place</label>
+                            <PlaceSelect id="place" onChange={(e) => handleChange('place', e.target.value)}> {/* @ts-ignore */}
+                                <option className="emptyOption" key="emptyOption" hidden disabled selected value></option>
+                                {apiPlaces.map((place: any) => { return ( <option key={place.id} value={place.id}>{place.place}</option> ) })}
+                            </PlaceSelect>
+                        </FloatingLabel>
 		
 						<HalfWidth>
 							<FloatingLabel>
@@ -157,7 +145,6 @@ const Register: React.FC = () => {
 						<Submit onClick={(event: any) => RegisterUser(event)}>Register</Submit>
 					</Form>
 		
-					<Href onClick={() => setHidden(true)}>Generate password?</Href>
 					<Href onClick={() => navigate("/login")}>Already have an account?</Href>
 				</Container>
 			</Background>
