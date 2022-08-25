@@ -66,7 +66,6 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 	const { background, border, text } = theme
     
 	// STATES FOR VALUES
-	const [confirmed, setConfirmed] = React.useState('');
     const [dataOutput, setDataOutput] = React.useState({});
 	
     const [textValue, setTextValue] = React.useState('');
@@ -85,8 +84,6 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 	const [rangeValue, setRangeValue] = React.useState('');
 
 	// HANDLING CHANGES FOR VALUES
-	const handleConfirmed = (confirmed: string) =>  setConfirmed(confirmed);
-	
     const handleTextValueChange = (key: string, text: string) =>  { setTextValue(text); setDataOutput({ ...dataOutput, [key]: text }) };
 	const handleNumberValueChange = (key: string, number: number) =>  { setNumberValue(number); setDataOutput({ ...dataOutput, [key]: number }) };
 	const handlePasswordValueChange = (key: string, password: string) =>  { setPasswordValue(password); setDataOutput({ ...dataOutput, [key]: password }) };
@@ -101,20 +98,14 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 	const handleTimeValueChange = (key: string, time: string) =>  { setTimeValue(time); setDataOutput({ ...dataOutput, [key]: time }) };
 	const handleDateTimeValueChange = (key: string, datetime: string) =>  { setDateTimeValue(datetime); setDataOutput({ ...dataOutput, [key]: datetime }) };
 	const handleRangeValueChange = (key: string, range: string) =>  { setRangeValue(range); setDataOutput({ ...dataOutput, [key]: range }) };
-
-    //EVENTS
-	React.useEffect(() => { handleConfirmed(active ? 'shown' : 'hidden') }, [ active ]);
 	
 	// ON CONFIRM BUTTON CLICK
-	const PopupConfirm = () => {
-		handleConfirmed('hidden');
-		return dataOutput;
-	}
+	const PopupConfirm = () => { return dataOutput; }
 
     // POPUP TSX
 	return (
 		<>
-			<PopupContainer id={id} className={confirmed === 'hidden' ? 'hidden' : 'shown'}>
+			<PopupContainer id={id} className={active ? 'shown' : 'hidden'}>
 				<PopupContent size={size} style={{ backgroundColor: background, color: text, borderColor: border }}>
 					{ topClose && 
 						<HeaderBar style={{ background: border }}>
