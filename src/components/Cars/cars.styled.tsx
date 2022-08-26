@@ -24,6 +24,11 @@ export const BigParentContainer = styled.div`
 	@media only screen and (max-width: 740px) {
 		grid-template-columns: 100%;
 	}
+    @media only screen and (min-width: 2560px) {
+		width: 70%;
+        margin: 0 auto;
+        margin-top: 90px;
+	}
 `;
 
 export const CarsFiltersContainer = styled.div`
