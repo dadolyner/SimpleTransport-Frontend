@@ -8,6 +8,7 @@ import Register from '../components/Forms/Register/Register';
 import Options from '../components/Forms/Options/Options';
 import ResetPassword from '../components/Forms/ForgotPassword/ResetPassword';
 import ForgotPassword from '../components/Forms/ForgotPassword/ForgotPassword';
+import Profile from '../components/Profile/profile';
 
 const App: React.FC = () => {
 	return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
 					<Route path="/options" element={<Options />} />
 					<Route path="/forgot-password" element={<ForgotPassword />} />
 					<Route path="/change-password" element={<ResetPassword />} />
+					<Route path="/profile" element={<Profile />} />
 				</Routes>
 			</BrowserRouter>
 		</>
