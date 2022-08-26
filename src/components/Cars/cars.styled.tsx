@@ -18,10 +18,16 @@ export const Background = styled.div`
 export const BigParentContainer = styled.div`
 	display: grid;
 	margin-top: 90px;
+    margin-bottom: 10px;
 	grid-template-columns: 30% 70%;
 	z-index: 1;
 	@media only screen and (max-width: 740px) {
 		grid-template-columns: 100%;
+	}
+    @media only screen and (min-width: 2560px) {
+		width: 70%;
+        margin: 0 auto;
+        margin-top: 90px;
 	}
 `;
 
@@ -157,6 +163,29 @@ export const Button = styled.button`
 		background: #fff;
 		color: #efb467;
 		border: 1px solid #efb467;
+		transform: scale(1.02);
+	}
+`;
+
+export const DeleteButton = styled.button`
+	outline: none;
+	border: none;
+	border-radius: 32px;
+	width: 100%;
+	height: 40px;
+	font-size: 14px;
+	font-weight: bold;
+	background: #fff;
+	box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+	color: #efb467;
+	border: 1px solid #efb467;
+	margin: 10px auto;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	&:hover {
+		background: linear-gradient(240deg, #efb467 0%, #de8667 100%);
+		color: #fff;
+		border: 1px solid #fff;
 		transform: scale(1.02);
 	}
 `;

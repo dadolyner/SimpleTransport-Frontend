@@ -1,26 +1,23 @@
 import styled from 'styled-components';
 
 // CONTAINER AND MAIN CONTENT
-type PopupSettings = {
-	size: number;
-};
+type PopupSettings = { size: number; };
+type PopupButton = { color?: string; colorHover?: string; background?: string; backgroundHover?: string; }
+
 export const PopupContainer = styled.div`
-	&.hidden {
-		display: none;
-		opacity: 0;
-	}
-	&.shown {
-		display: flex;
-	}
+    &.shown { display: flex; }
+	&.hidden { display: none; }
 	position: fixed;
 	top: 0;
 	left: 0;
 	height: 100vh;
 	width: 100vw;
+    min-width: 250px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
 `;
 export const PopupContent = styled.div<PopupSettings>`
 	position: relative;
@@ -37,9 +34,7 @@ export const HeaderBar = styled.div`
 	position: relative;
 	background: #ccc;
 	height: 24px;
-	&:hover {
-		cursor: move;
-	}
+	/* &:hover { cursor: move; } */
 `;
 export const CloseButton = styled.div`
 	position: absolute;
@@ -93,6 +88,10 @@ export const Form = styled.form`
 	::-webkit-scrollbar-thumb:hover,
 	::-webkit-scrollbar-thumb:hover {
 		background: #aaa !important;
+	}
+
+    @media screen and (max-width: 460px) {
+		grid-template-columns: 100%;
 	}
 `;
 
@@ -163,22 +162,25 @@ export const ButtonsContainer = styled.div`
 	align-items: center;
 	margin: 20px 0;
 `;
-export const Button = styled.button`
+export const Button = styled.button<PopupButton>`
 	border: 0;
 	outline: 0;
-	border: 2px solid #ccc;
+	border: 2px solid ${(props) => props.color || '#000'};
 	border-radius: 5px;
 	font-size: 18px;
 	width: fit-content;
+    color: ${(props) => props.color || '#000'};
+    background: ${(props) => props.background || '#fff'};
 	height: 40px;
 	padding: 0 20px;
 	margin: 0 5px;
 	user-select: none;
 	transition: all 0.3s ease-in-out;
 	&:hover {
-		background: #aaa;
+        border: 2px solid ${(props) => props.colorHover || '#fff'};
+        color: ${(props) => props.colorHover || '#fff'};
+		background: ${(props) => props.backgroundHover || '#000'};
 		cursor: pointer;
-		transform: scale(1.01);
 	}
 `;
 

@@ -40,11 +40,11 @@ export const ToastPopup = styled.div`
 	font-family: Verdana;
 	font-size: 16px;
 	background-color: #fff;
-	border: 1px solid #000;
+	/* border: 1px solid #000; */
 	display: grid;
 	grid-template-columns: 15% 70% 15%;
 	transition: all 0.5s ease;
-	z-index: 100;
+	z-index: 1000;
 
 	&.hide {
 		animation: 0.2s ease-in-out 0s 1 ${slideToRight};

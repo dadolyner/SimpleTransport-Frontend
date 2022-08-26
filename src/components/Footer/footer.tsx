@@ -4,7 +4,9 @@ import { Container, SocialMedia, SocialMediaItem, FooterNavigation, Link, Credit
 import { Images } from './icons/socialImages';
 
 const Footer: React.FC = () => {
-	let navigate = useNavigate();
+	const navigate = useNavigate();
+    const userLoggedIn = localStorage.getItem('simpletransport_userLoggedIn');
+
 	return (
 		<>
 			<Container>
@@ -18,11 +20,12 @@ const Footer: React.FC = () => {
 				<FooterNavigation>
 					<Link onClick={() => navigate("/")}>Home</Link>
 					<Link onClick={() => navigate("/cars")}>Cars</Link>
-					<Link onClick={() => navigate("/login")}>Login</Link>
+
+                    { userLoggedIn === 'true' ? <Link onClick={() => navigate("/profile")}>Profile</Link> : <Link onClick={() => navigate("/login")}>Login</Link> }
 				</FooterNavigation>
 
 				<Credits>
-					<p>Simple Rental © 2022</p>
+					<p>Simple Transport © { new Date().getFullYear() }</p>
 				</Credits>
 			</Container>
 		</>

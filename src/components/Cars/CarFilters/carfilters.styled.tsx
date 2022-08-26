@@ -21,6 +21,7 @@ export const Container = styled.div`
 
     @media only screen and (max-width: 740px) { width: 96%; }
     @media only screen and (max-width: 420px) { width: 95%; }
+    @media only screen and (min-width: 2560px) { width: 20%; }
 `;
 
 export const Arrow = styled.div`

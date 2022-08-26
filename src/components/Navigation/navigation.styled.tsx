@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 type isOpened = {
 	isOpen: boolean;
+    numberOfItems: number;
 };
 
 export const Container = styled.nav`
@@ -38,7 +39,7 @@ export const NavigationLogo = styled.div`
 
 export const NavigationItems = styled.div<isOpened>`
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(${({numberOfItems}) => numberOfItems}, 1fr);
 	grid-gap: 10px;
 	align-items: center;
 	position: relative;
