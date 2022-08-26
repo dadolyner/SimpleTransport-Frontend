@@ -46,7 +46,7 @@ type DefaultPopupSettings = {
 		onClick?: () => any;
 	}>;
 	
-    RetrieveValues: (object: any) => any;
+    RetrieveValues?: (object: any) => any;
 };
 
 const uuid = (version: number): string => {
