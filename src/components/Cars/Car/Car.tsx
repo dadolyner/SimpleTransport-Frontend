@@ -6,6 +6,7 @@ import Popup from '../../Popups/popup';
 import axios from '../../../api/axios';
 import Seats from '../../../helpers/Seats'
 import Duration from '../../../helpers/Duration'
+import RefreshUsersData from '../../../helpers/RefreshUserData';
 
 type carInfo = {
 	key: string;
@@ -29,7 +30,9 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
 	const [toastSuccessMessage, setToastSuccessMessage] = React.useState('');
 	const [toastError, setToastError] = React.useState(false);
 	const [toastErrorMessage, setToastErrorMessage] = React.useState('');
-    const [popupVisible, setPopupVisible] = React.useState(false);
+    const [popupRentVisible, setRentPopupVisible] = React.useState(false);
+    const [popupDeleteVisible, setDeletePopupVisible] = React.useState(false);
+    const [popupEditVisible, setEditPopupVisible] = React.useState(false);
 
 	const { id, type, image, name, seats, shifter, horsepower, torque, speed, fuel, location, price, duration } = props;
     const RentACar = async(values: { rent_start: string, rent_end: string }) => {
@@ -43,7 +46,7 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
             setToastSuccess(true);
             setTimeout(() => { setToastSuccess(false); }, 5100);
             
-            setPopupVisible(false);
+            setRentPopupVisible(false);
         } 
         catch(error) { 
             if (error.response.status === 400) {
@@ -58,35 +61,85 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
         
     }
 
+    const DeleteACar = async() => {
+        try {
+            const accessToken = localStorage.getItem('simpletransport_accessToken');
+            await axios.delete(`/vehicle?id=${id}`, { headers: { Authorization: `Bearer ${accessToken}` } }) 
+
+            setToastSuccessMessage(`Car ${name} successfully rented!`);
+            setToastSuccess(true);
+            setTimeout(() => { setToastSuccess(false); }, 5100);
+            
+            setDeletePopupVisible(false);
+            RefreshUsersData()
+
+        } catch(error) {
+            setToastErrorMessage(error.response.data.message);
+            setToastError(true);
+            setTimeout(() => { setToastError(false) }, 5100);
+        }
+    }
+
+    const EditACar = async() => {
+
+    }
+
 	return (
 		<>
 			{ toastSuccess && <Toast type={'success'} message={toastSuccessMessage} /> }
 			{ toastError && <Toast type={'error'} message={toastErrorMessage} /> }
             
-            { popupVisible && <Popup
+            {/* RENT POPUP */}
+            { popupRentVisible && <Popup
                 key={name + 'RentPopup'}
-                active={ popupVisible }
+                active={ popupRentVisible }
                 title={'Rent ' + name}
                 size={600}
                 theme={{ background: '#fff', border: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)', text: '#000' }}
                 labelAligment={'center'}
-                topClose={() => setPopupVisible(false)}
+                topClose={() => setRentPopupVisible(false)}
                 inputs={[
                     { type: 'datetime-local', label: 'Rent start', name: 'rent_start' },
                     { type: 'datetime-local', label: 'Rent end', name: 'rent_end' }
                 ]}
-                bottomButtons={[
-                    { 
-                        name: 'confirm', 
-                        text: 'Confirm', 
-                        color: '#fff', 
-                        colorHover:'#de8667', 
-                        background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)', 
-                        backgroundHover: '#fff', 
-                        onClick: () => {} 
-                    },
-                ]}
+                bottomButtons={[ {  name: 'confirm',  text: 'Confirm',  color: '#fff',  colorHover:'#de8667',  background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)',  backgroundHover: '#fff',  onClick: () => {} } ]}
                 RetrieveValues={(values) => { RentACar(values) }}
+            />}
+
+            {/* DELETE POPUP */}
+            { popupDeleteVisible && <Popup
+                key={name + 'DeletePopup'}
+                active={ popupDeleteVisible }
+                title={'Delete ' + name}
+                size={600}
+                theme={{ background: '#fff', border: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)', text: '#000' }}
+                labelAligment={'center'}
+                topClose={() => setDeletePopupVisible(false)}
+                inputs={[ { type: 'html', label: '', name: 'confirmHtml', html: '<p style="font-size: 20px; text-align: center;">Are you sure you want to delete this car?</p>' } ]}
+                bottomButtons={[ {  name: 'confirm',  text: 'Delete',  color: '#fff',  colorHover:'#de8667',  background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)',  backgroundHover: '#fff',  onClick: () => { DeleteACar() } } ]}
+            />}
+
+            {/* EDIT POPUP */}
+            { popupEditVisible && <Popup
+                key={name + 'EditPopup'}
+                active={ popupEditVisible }
+                title={'Edit ' + name}
+                size={600}
+                theme={{ background: '#fff', border: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)', text: '#000' }}
+                labelAligment={'center'}
+                topClose={() => setEditPopupVisible(false)}
+                inputs={[ 
+                    { type: 'number', name: 'seats', label: 'Seats', value: seats },
+                    { type: 'text', name: 'shifter', label: 'Shifter', value: shifter },
+                    { type: 'number', name: 'horsepower', label: 'Horsepower', value: horsepower },
+                    { type: 'number', name: 'torque', label: 'Torque', value: torque },
+                    { type: 'number', name: 'acceleration', label: 'Acceleration', value: speed },
+                    { type: 'text', name: 'fuel', label: 'Fuel', value: fuel },
+                    { type: 'text', name: 'location', label: 'Location', value: location },
+                    { type: 'number', name: 'price', label: 'Price', value: price },
+                    { type: 'number', name: 'duration', label: 'Duration', value: duration }
+                ]}
+                bottomButtons={[ {  name: 'confirm',  text: 'Edit',  color: '#fff',  colorHover:'#de8667',  background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)',  backgroundHover: '#fff',  onClick: () => { EditACar() } } ]}
             />}
 
 			<Container>
@@ -109,11 +162,11 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
 					<div>{Duration(duration)}</div>
 					<CarPrice>{price} €</CarPrice>
                     { type === 'rent' ? (
-                        <Button onClick={() => { setPopupVisible(true) }}>Rent</Button>	
+                        <Button onClick={() => { setRentPopupVisible(true) }}>Rent</Button>	
                     ) : (
                         <>
-                            <Button onClick={() => { setPopupVisible(true) }}>Edit</Button>
-                            <DeleteButton onClick={() => { setPopupVisible(true) }}>Delete</DeleteButton>
+                            <Button onClick={() => { setRentPopupVisible(true) }}>Edit</Button>
+                            <DeleteButton onClick={() => { setDeletePopupVisible(true) }}>Delete</DeleteButton>
                         </>
                     )}
 				</CarPriceInfo>
