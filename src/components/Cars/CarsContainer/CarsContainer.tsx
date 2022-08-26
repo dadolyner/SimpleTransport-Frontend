@@ -35,6 +35,7 @@ const CarsContainer: React.FC = () => {
 							return <Car 
 								key={car.vehicle.id}
                                 id={car.vehicle.id}
+                                type={'rent'}
 								image={car.vehicle.image ? car.vehicle.image : CarAvatar} 
 								name={car.vehicle.brand + ' ' + car.vehicle.model}
 								seats={car.vehicle.seats} 

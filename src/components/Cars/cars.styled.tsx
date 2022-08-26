@@ -166,3 +166,26 @@ export const Button = styled.button`
 		transform: scale(1.02);
 	}
 `;
+
+export const DeleteButton = styled.button`
+	outline: none;
+	border: none;
+	border-radius: 32px;
+	width: 100%;
+	height: 40px;
+	font-size: 14px;
+	font-weight: bold;
+	background: #fff;
+	box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+	color: #efb467;
+	border: 1px solid #efb467;
+	margin: 10px auto;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	&:hover {
+		background: linear-gradient(240deg, #efb467 0%, #de8667 100%);
+		color: #fff;
+		border: 1px solid #fff;
+		transform: scale(1.02);
+	}
+`;

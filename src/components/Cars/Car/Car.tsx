@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, CarImageInfo, Image, CarSpecsInfo, CarPriceInfo, Header, Button, GridFullRow, CarSpecs, CarPrice, Icon, SingleRow } from '../cars.styled';
+import { Container, CarImageInfo, Image, CarSpecsInfo, CarPriceInfo, Header, Button, GridFullRow, CarSpecs, CarPrice, Icon, SingleRow, DeleteButton } from '../cars.styled';
 import { Images } from './icons/icons';
 import Toast from '../../Toast/toast';
 import Popup from '../../Popups/popup';
@@ -10,6 +10,7 @@ import Duration from '../../../helpers/Duration'
 type carInfo = {
 	key: string;
     id: string;
+    type: 'rent' | 'edit';
 	image: string;
 	name: string;
 	seats: number;
@@ -30,7 +31,7 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
 	const [toastErrorMessage, setToastErrorMessage] = React.useState('');
     const [popupVisible, setPopupVisible] = React.useState(false);
 
-	const { id, image, name, seats, shifter, horsepower, torque, speed, fuel, location, price, duration } = props;
+	const { id, type, image, name, seats, shifter, horsepower, torque, speed, fuel, location, price, duration } = props;
     const RentACar = async(values: { rent_start: string, rent_end: string }) => {
         try {       
             const accessToken = localStorage.getItem('simpletransport_accessToken');
@@ -107,7 +108,14 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
 				<CarPriceInfo className='CarPriceInfo'>
 					<div>{Duration(duration)}</div>
 					<CarPrice>{price} €</CarPrice>
-					<Button onClick={() => { setPopupVisible(true) }}>Rent</Button>	
+                    { type === 'rent' ? (
+                        <Button onClick={() => { setPopupVisible(true) }}>Rent</Button>	
+                    ) : (
+                        <>
+                            <Button onClick={() => { setPopupVisible(true) }}>Edit</Button>
+                            <DeleteButton onClick={() => { setPopupVisible(true) }}>Delete</DeleteButton>
+                        </>
+                    )}
 				</CarPriceInfo>
 			</Container>
 		</>
