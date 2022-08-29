@@ -4,6 +4,7 @@ import { CarAvatar } from '../../images/ImageExporter';
 import Car from '../Cars/Car/Car';
 import { Background, CarsListContainer } from '../Cars/cars.styled';
 import Footer from '../Footer/footer';
+import Loading from '../Loading/loading';
 import Navigation from '../Navigation/navigation';
 import { Container, UserTag } from './profile.styled';
 
@@ -13,18 +14,20 @@ const Profile: React.FC = () => {
     const [userInfo, setUserInfo] = React.useState({} as any);
     const [usersCars, setUsersCars] = React.useState([] as any);
     const [usersRentals, setUsersRentals] = React.useState([] as any);
+    const [isLoading, setIsLoading] = React.useState(false)
 
     const getUsersCars = async () => {
         try {
+            setIsLoading(true)
             const userLoggedIn = localStorage.getItem('simpletransport_userLoggedIn');
             if(!userLoggedIn) navigate('/login');
-
             const userInfo = await JSON.parse(localStorage.getItem('simpletransport_userInfo'));
             const { user, vehicle, rental} = userInfo;
+            
             setUserInfo(user);
             setUsersCars(vehicle);
             setUsersRentals(rental);
-            console.log(userInfo)
+            setIsLoading(false)
 
         } catch (error) { console.log(error); }
     }
@@ -33,6 +36,8 @@ const Profile: React.FC = () => {
     return (
         <>
             <Background>
+                <Loading isLoading={isLoading}/>
+
                 <Navigation />
 
                 <Container>

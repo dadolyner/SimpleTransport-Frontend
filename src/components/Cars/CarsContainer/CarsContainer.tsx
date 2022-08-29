@@ -7,14 +7,18 @@ import Footer from '../../Footer/footer'
 import axios from '../../../api/axios'
 import { CarAvatar } from '../../../images/ImageExporter'
 import BackToTop from '../../BackToTop/backtotop'
+import Loading from '../../Loading/loading'
 
 const CarsContainer: React.FC = () => {
     const [cars, setCars] = React.useState([])
+    const [isLoading, setIsLoading] = React.useState(false)
 
     const RetrieveCars = async () => {
         try {
+            setIsLoading(true)
             const carsResponse = await axios.get('/vehicle')
             setCars(carsResponse.data)
+            setIsLoading(false)
         } catch (error) { console.log(error.response.data.message) }
     }
 
@@ -22,6 +26,8 @@ const CarsContainer: React.FC = () => {
 
 	return (
 		<>
+            <Loading isLoading={isLoading}/>
+
 			<Background>
 				<Navigation />
 

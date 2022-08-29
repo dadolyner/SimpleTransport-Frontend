@@ -6,7 +6,8 @@ type LoadingProps = {
 }
 
 const Loading: React.FC<LoadingProps> = (props: LoadingProps) => {
-	if(props.isLoading) {
+	const { isLoading } = props;
+    if(isLoading) {
 		return (
 			<>
 				<Container className='loadingCircle'>
