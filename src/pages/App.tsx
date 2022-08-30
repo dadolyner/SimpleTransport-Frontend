@@ -8,12 +8,14 @@ import Options from '../components/Forms/Options/Options';
 import ResetPassword from '../components/Forms/ForgotPassword/ResetPassword';
 import ForgotPassword from '../components/Forms/ForgotPassword/ForgotPassword';
 import Profile from '../components/Profile/profile';
+import Admin from './Admin';
 
 const App: React.FC = () => {
 	return (
 		<>
 			<BrowserRouter>
 				<Routes>
+                    <Route path="/admin" element={<Admin />} />
 					<Route path="/cars" element={<CarsContainer />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
