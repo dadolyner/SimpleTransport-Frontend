@@ -31,7 +31,7 @@ const Login: React.FC = () => {
             localStorage.setItem('simpletransport_userLoggedIn', 'true')
             const userInfoResponse = await axios.get('/user/me', { headers: { Authorization: 'Bearer ' + loginResponse.data.accessToken } })
             localStorage.setItem('simpletransport_userInfo', JSON.stringify(userInfoResponse.data))
-            navigate('/cars')
+            navigate('/')
         }
         catch(error) { setErrorMessage(error.response.data.message) }
     }

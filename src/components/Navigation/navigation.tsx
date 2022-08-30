@@ -13,7 +13,7 @@ const Navigation: React.FC = () => {
         localStorage.removeItem('simpletransport_userLoggedIn');
         localStorage.removeItem('simpletransport_accessToken');
         localStorage.removeItem('simpletransport_userInfo');
-        navigate('/cars');
+        navigate('/');
     }
 
 	return (
@@ -28,7 +28,7 @@ const Navigation: React.FC = () => {
 				</Hamburger>
 
 				<NavigationItems isOpen={isOpen} numberOfItems={ userLoggedIn === 'true' ? 3 : 2}>
-					<Item onClick={() => navigate("/cars")}>Cars</Item>
+					<Item onClick={() => navigate("/")}>Home</Item>
                     { 
                         userLoggedIn === 'true' ? (
                             <>

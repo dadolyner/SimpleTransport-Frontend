@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
 				</SocialMedia>
 
 				<FooterNavigation>
-					<Link onClick={() => navigate("/cars")}>Cars</Link>
+					<Link onClick={() => navigate("/")}>Home</Link>
 
                     { userLoggedIn === 'true' ? <Link onClick={() => navigate("/profile")}>Profile</Link> : <Link onClick={() => navigate("/login")}>Login</Link> }
 				</FooterNavigation>
