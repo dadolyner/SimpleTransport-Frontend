@@ -1,23 +1,38 @@
 import * as React from 'react';
-import { Container, Title, Arrow, Section, SectionTitle, RangeContainer, Range, RangeLabel, Spacer, ApplyFilters } from './carfilters.styled';
-import Checkbox from './checkbox'
+import axios from '../../../api/axios';
+import { DeleteButton } from '../cars.styled';
+import { Container, Title, Arrow, Section, SectionTitle, Spacer, ApplyFilters, Radio, RadioText, SectionsContainer } from './carfilters.styled';
 
-const CarsFilters: React.FC = () => {
-    const [rangeFromValue, setRangeFrom] = React.useState('0');
-    const handleRangeFromValueChange = (rangeFrom: string) =>  setRangeFrom(rangeFrom);
-    const [rangeToValue, setRangeTo] = React.useState('0');
-    const handleRangeToValueChange = (rangeTo: string) =>  setRangeTo(rangeTo);
+type FilterProps = {
+    FilteredData: (filters: any) => void;
+}
 
+const CarsFilters: React.FC<FilterProps> = (props: FilterProps) => {
+    const { FilteredData } = props;
+    
+    const [fuels, setFuels] = React.useState([] as any);
+    const [brands, setBrands] = React.useState([] as any);
     const [isShown, setIsShown] = React.useState(false);
-
-    const allZnamke = ['Audi', 'Bugatti', 'Kia', 'Citroen', 'Dacia', 'Ford', 'Opel', 'Renault', 'Tesla']
-    const sortedZnamke = allZnamke.sort((a, b) => a.localeCompare(b))
+    
+    const [dataOutput, setDataOutput] = React.useState({} as any);
+    const handleChange = (event: any) => setDataOutput((prevState: any) => ({ ...prevState, [event.target.name]: event.target.value }));
 
     const backToTop = () => { 
         const screenWidth = window.innerWidth;
         if(screenWidth < 740) { setIsShown(false); window.scrollTo({ top: 0, left:0, behavior: 'smooth' }) }
         else { window.scrollTo({ top: 0, left:0, behavior: 'smooth' }) }
     }
+    const loadFilterData = async() => {
+        try {
+            const fuelData = await axios.get('/fuel');
+            const brandData = await axios.get('/brand');
+            
+            setFuels(fuelData.data);
+            setBrands(brandData.data);
+        } catch (error) { console.log(error); }
+    }
+
+    React.useEffect(() => { loadFilterData() } , [])
 
     return (
         <>
@@ -26,47 +41,40 @@ const CarsFilters: React.FC = () => {
 
             <Spacer />
 
-            <Section>
-                <SectionTitle>Cena</SectionTitle>
+            <SectionsContainer className="custom_scroll">
+                <Section>
+                    <div></div><SectionTitle>Vrsta goriva</SectionTitle>
+                    { fuels.map((fuel: any) => { 
+                        return <>
+                            <Radio type="radio" name="fuel.fuel" value={fuel.fuel} onClick={(event: any) => handleChange(event)}/><RadioText>{fuel.fuel}</RadioText>
+                        </> 
+                    })}
+                </Section>
 
-                <RangeContainer>
-                    <RangeLabel>{rangeFromValue} €</RangeLabel> - <RangeLabel>{rangeToValue} €</RangeLabel><br />
+                <Spacer />
 
-                    <Range type="range" min="0" max="1000" step="10" value={rangeFromValue} onChange={(e) => handleRangeFromValueChange(e.target.value)} />
-                    <Range type="range" min="0" max="1000" step="10" value={rangeToValue} onChange={(e) => handleRangeToValueChange(e.target.value)} />
-                </RangeContainer>
-            </Section>
+                <Section>
+                    <div></div><SectionTitle>Vrsta menjalnika</SectionTitle>
+                    <Radio type="radio" name="vehicle.shifter" value="Manual" onClick={(event: any) => handleChange(event)}/><RadioText>Manual</RadioText>
+                    <Radio type="radio" name="vehicle.shifter" value="Automatic" onClick={(event: any) => handleChange(event)}/><RadioText>Automatic</RadioText>
+                </Section>
 
-            <Spacer />
+                <Spacer />
 
-            <Section>
-                <SectionTitle>Vrsta goriva</SectionTitle>
-
-                <Checkbox id={'dizel'} name={'dizel'} label={'Dizel'} />
-                <Checkbox id={'bencin'} name={'bencin'} label={'Bencin'} />
-                <Checkbox id={'plun'} name={'plin'} label={'Plin'} />
-                <Checkbox id={'elektrika'} name={'elektrika'} label={'Elektrika'} />
-            </Section>
-
-            <Spacer />
-
-            <Section>
-                <SectionTitle>Vrsta menjalnika</SectionTitle>
-
-                <Checkbox id={'rocni'} name={'rocni'} label={'Ročni'} />
-                <Checkbox id={'avtomatski'} name={'avtomatski'} label={'Avtomatski'} />
-            </Section>
-
-            <Spacer />
-
-            <Section>
-                <SectionTitle>Znamka</SectionTitle>
-                {sortedZnamke.map((znamka) => { return <Checkbox key={znamka} id={znamka} name={znamka} label={znamka} /> })}
-            </Section>
+                <Section>
+                    <div></div><SectionTitle>Znamka</SectionTitle>
+                    {brands.map((brand: any) => { 
+                        return <>
+                            <Radio type="radio" name="brand.brand" value={brand.brand} onClick={(event: any) => handleChange(event)}/><RadioText>{brand.brand}</RadioText>
+                        </> 
+                    })}
+                </Section>
+            </SectionsContainer>
 
             <Spacer />
 
-            <ApplyFilters onClick={() => backToTop()}>Uporabi filtre</ApplyFilters>
+            <ApplyFilters onClick={() => { backToTop(); FilteredData(dataOutput) }}>Use filters</ApplyFilters>
+            <DeleteButton onClick={() => { backToTop(); FilteredData("") }}>Reset filters</DeleteButton>
 
         </Container>
         </>

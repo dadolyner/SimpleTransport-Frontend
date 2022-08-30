@@ -21,6 +21,7 @@ export const BigParentContainer = styled.div`
     margin-bottom: 10px;
 	grid-template-columns: 30% 70%;
 	z-index: 1;
+    min-height: 600px;
 	@media only screen and (max-width: 740px) {
 		grid-template-columns: 100%;
 	}
@@ -42,8 +43,9 @@ export const CarsListContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	/* justify-content: center; */
 	padding: 0 10px;
+    min-height: 600px;
 	@media only screen and (max-width: 740px) {
 		margin-top: 80px;
 	}

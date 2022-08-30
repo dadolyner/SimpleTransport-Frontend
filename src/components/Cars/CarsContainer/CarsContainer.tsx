@@ -13,16 +13,23 @@ const CarsContainer: React.FC = () => {
     const [cars, setCars] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(false)
 
-    const RetrieveCars = async () => {
+    const RetrieveCars = async (filters: any) => {
         try {
             setIsLoading(true)
-            const carsResponse = await axios.get('/vehicle')
-            setCars(carsResponse.data)
-            setIsLoading(false)
+            if(filters) {
+                const queryString = Object.keys(filters).map((key) => { return `${key}=${filters[key]}` }).join('&')
+                const carsResponse = await axios.get(`/vehicle?${queryString}`)
+                setCars(carsResponse.data)
+                setIsLoading(false)
+            } else {
+                const carsResponse = await axios.get('/vehicle')
+                setCars(carsResponse.data)
+                setIsLoading(false)
+            }
         } catch (error) { console.log(error.response.data.message) }
     }
 
-    React.useEffect(() => { RetrieveCars() }, [])
+    React.useEffect(() => { RetrieveCars(null) }, [])
 
 	return (
 		<>
@@ -33,7 +40,7 @@ const CarsContainer: React.FC = () => {
 
 				<BigParentContainer>
 					<CarsFiltersContainer>
-						<CarsFilters />
+						<CarsFilters FilteredData={(filters: any) => RetrieveCars(filters)}/>
 					</CarsFiltersContainer>
 
 					<CarsListContainer>

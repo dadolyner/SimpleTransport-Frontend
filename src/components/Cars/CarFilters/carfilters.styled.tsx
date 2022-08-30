@@ -52,9 +52,29 @@ export const Title = styled.h1`
     justify-content: space-between;
 `;
 
-export const ClearFilters = styled.button``;
+export const SectionsContainer = styled.div`
+    max-height: 300px;
+    overflow-y: scroll;
 
-export const Section = styled.div``;
+    
+`;
+
+export const Section = styled.div`
+    display: grid;
+    grid-template-columns: 30px 200px;
+    align-items: center;
+`;
+
+export const Radio = styled.input`
+    width: 20px;
+    height: 20px;
+    margin: 5px auto;
+`;
+
+export const RadioText = styled.span`
+    margin-left: 10px;
+    line-height: 20px;
+`;
 
 export const SectionTitle = styled.h3`
     margin: 0;
