@@ -28,7 +28,7 @@ const ResetPassword: React.FC = () => {
         try { 
             await axios.patch(`/auth/change-password?token=${passwordToken}`, password)
             setErrorMessage('')
-            setConfirmMessage('Password change request sent to your email.')
+            setConfirmMessage('Password successfully changed.')
         } 
         catch(error) { setErrorMessage(error.response.data.message) }
     } 
