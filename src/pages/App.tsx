@@ -1,7 +1,6 @@
 import '../styles/GlobalStyles.css';
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './Home';
 import CarsContainer from '../components/Cars/CarsContainer/CarsContainer';
 import Login from '../components/Forms/Login/Login';
 import Register from '../components/Forms/Register/Register';
@@ -15,7 +14,6 @@ const App: React.FC = () => {
 		<>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/" element={<Home />} />
 					<Route path="/cars" element={<CarsContainer />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
