@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Car from '../Car/Car'
-import { Background, BigParentContainer, CarsFiltersContainer, CarsListContainer } from '../cars.styled'
+import { Background, BigParentContainer, CarsFiltersContainer, CarsListContainer, NoCars } from '../cars.styled'
 import CarsFilters from '../CarFilters/carfilters'
 import Navigation from '../../Navigation/navigation'
 import Footer from '../../Footer/footer'
@@ -44,7 +44,7 @@ const CarsContainer: React.FC = () => {
 					</CarsFiltersContainer>
 
 					<CarsListContainer>
-						{cars.map((car) => {
+						{cars.length > 0 ? cars.map((car) => {
 							return <Car 
 								key={car.vehicle.id}
                                 id={car.vehicle.id}
@@ -64,7 +64,8 @@ const CarsContainer: React.FC = () => {
                                 vin={car.vin}
                                 year={car.vehicle.year}
 							/>;
-						})}
+						}) : <NoCars>No cars found</NoCars>
+                    }
 					</CarsListContainer>
 				</BigParentContainer>
 

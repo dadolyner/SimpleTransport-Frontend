@@ -142,6 +142,19 @@ export const CarReturn = styled.p`
 	}
 `;
 
+export const NoCars = styled.div`
+    background-color: #fff;
+	box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.2);
+	border-radius: 10px;
+	margin: 5px 0px;
+	font-family: Poppins;
+	width: 100%;
+    text-align: center;
+    padding: 17px;
+    font-size: 20px;
+    font-weight: bold;
+`;
+
 export const Icon = styled.img`
 	width: 20px;
 	height: 20px;
