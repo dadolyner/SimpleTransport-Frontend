@@ -49,6 +49,13 @@ export const CarsListContainer = styled.div`
 	}
 `;
 
+export const RentListContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 10px;
+`;
+
 export const Container = styled.div`
 	background-color: #fff;
 	display: grid;

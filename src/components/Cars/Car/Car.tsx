@@ -23,6 +23,9 @@ type carInfo = {
 	location: string;
 	price: number;
 	duration: number;
+    licence_plate: string;
+    vin: string;
+    year: string;
 };
 
 const Car: React.FC<carInfo> =  (props: carInfo) => {
@@ -33,8 +36,11 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
     const [popupRentVisible, setRentPopupVisible] = React.useState(false);
     const [popupDeleteVisible, setDeletePopupVisible] = React.useState(false);
     const [popupEditVisible, setEditPopupVisible] = React.useState(false);
+    const [fuels, setFuels] = React.useState([] as any);
+    const [models, setModels] = React.useState([] as any);
+    const [colors, setColors] = React.useState([] as any);
 
-	const { id, type, image, name, seats, shifter, horsepower, torque, speed, fuel, location, price, duration } = props;
+	const { id, type, image, name, seats, shifter, horsepower, torque, speed, fuel, location, price, duration, licence_plate, vin, year } = props;
     const RentACar = async(values: { rent_start: string, rent_end: string }) => {
         try {       
             const accessToken = localStorage.getItem('simpletransport_accessToken');
@@ -60,7 +66,6 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
         }
         
     }
-
     const DeleteACar = async() => {
         try {
             const accessToken = localStorage.getItem('simpletransport_accessToken');
@@ -68,10 +73,9 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
 
             setToastSuccessMessage(`Car ${name} successfully rented!`);
             setToastSuccess(true);
-            setTimeout(() => { setToastSuccess(false); }, 5100);
+            setTimeout(() => { setToastSuccess(false); RefreshUsersData(); }, 5100);
             
             setDeletePopupVisible(false);
-            RefreshUsersData()
 
         } catch(error) {
             setToastErrorMessage(error.response.data.message);
@@ -79,9 +83,68 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
             setTimeout(() => { setToastError(false) }, 5100);
         }
     }
+    const EditACar = async(values: any) => {
+        try {
+            const accessToken = localStorage.getItem('simpletransport_accessToken');
+            const vehicleData = {
+                seats: values.seats ? +values.seats : seats,
+                shifter: values.shifter,
+                horsepower: values.horsepower ? +values.horsepower : horsepower,
+                torque: values.torque ? +values.torque : torque,
+                acceleration: values.acceleration ? +values.acceleration : speed,
+                fuelId: values.fuel,
+                location: location,
+                price: values.price ? +values.price : price,
+                rent_duration: values.rent_duration ? +values.rent_duration : duration,
+                licence_plate: licence_plate,
+                vin: vin,
+                modelId: values.model,
+                colorId: values.color,
+                year: year,
+            }
+            await axios.patch(`/vehicle?id=${id}`, vehicleData, { headers: { Authorization: `Bearer ${accessToken}` } }) 
 
-    const EditACar = async() => {
+            setToastSuccessMessage(`Car ${name} successfully edited!`);
+            setToastSuccess(true);
+            setTimeout(() => { setToastSuccess(false); RefreshUsersData() }, 5100);
+            
+            setEditPopupVisible(false);
 
+        } catch(error) {
+            if (error.response.status === 400) {
+                setToastErrorMessage('Please fill all fields!');
+                setToastError(true);
+            } else {
+                setToastErrorMessage(error.response.data.message);
+                setToastError(true);
+            }
+            setTimeout(() => { setToastError(false) }, 5100);
+        }
+    }
+    const shifters = [
+        {
+            optionValue: 'Automatic',
+            optionText: 'Automatic'
+        },
+        {
+            optionValue: 'Manual',
+            optionText: 'Manual'
+        }
+    ];
+    const getDropdownData = async () => {
+        try {
+            const fuelData = await axios.get('/fuel');
+            const modelData = await axios.get('/model');
+            const colorData = await axios.get('/color');
+
+            const fuels = fuelData.data.map((fuel: any) => { return { optionValue: fuel.id, optionText: fuel.fuel } })
+            const models = modelData.data.map((model: any) => { return { optionValue: model.id, optionText: model.model } })
+            const colors = colorData.data.map((color: any) => { return { optionValue: color.id, optionText: color.color } })
+
+            setFuels(fuels);
+            setModels(models);
+            setColors(colors);
+        } catch(error) { console.log(error) }
     }
 
 	return (
@@ -130,16 +193,20 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
                 topClose={() => setEditPopupVisible(false)}
                 inputs={[ 
                     { type: 'number', name: 'seats', label: 'Seats', value: seats },
-                    { type: 'text', name: 'shifter', label: 'Shifter', value: shifter },
-                    { type: 'number', name: 'horsepower', label: 'Horsepower', value: horsepower },
-                    { type: 'number', name: 'torque', label: 'Torque', value: torque },
-                    { type: 'number', name: 'acceleration', label: 'Acceleration', value: speed },
-                    { type: 'text', name: 'fuel', label: 'Fuel', value: fuel },
+                    { type: 'dropdown', name: 'shifter', label: 'Shifter', value: shifter, options: shifters },
+                    { type: 'number', name: 'horsepower', label: 'Horsepower(HP)', value: horsepower },
+                    { type: 'number', name: 'torque', label: 'Torque(NM)', value: torque },
+                    { type: 'number', name: 'acceleration', label: 'Acceleration(KM/s)', value: speed },
+                    { type: 'dropdown', name: 'fuel', label: 'Fuel', value: fuel, options: fuels },
                     { type: 'text', name: 'location', label: 'Location', value: location },
-                    { type: 'number', name: 'price', label: 'Price', value: price },
-                    { type: 'number', name: 'duration', label: 'Duration', value: duration }
+                    { type: 'number', name: 'price', label: 'Price(€)', value: price },
+                    { type: 'number', name: 'rent_duration', label: 'Duration(Days)', value: duration },
+                    { type: 'dropdown', name: 'model', label: 'Model', value: duration, options: models },
+                    { type: 'dropdown', name: 'color', label: 'Color', value: duration, options: colors }
                 ]}
-                bottomButtons={[ {  name: 'confirm',  text: 'Edit',  color: '#fff',  colorHover:'#de8667',  background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)',  backgroundHover: '#fff',  onClick: () => { EditACar() } } ]}
+                bottomButtons={[ {  name: 'confirm',  text: 'Edit',  color: '#fff',  colorHover:'#de8667',  background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)',  backgroundHover: '#fff',  onClick: () => { } } ]}
+                onLoad={() => { getDropdownData() }}
+                RetrieveValues={(values) => { EditACar(values) }}
             />}
 
 			<Container>
@@ -165,7 +232,7 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
                         <Button onClick={() => { setRentPopupVisible(true) }}>Rent</Button>	
                     ) : (
                         <>
-                            <Button onClick={() => { setRentPopupVisible(true) }}>Edit</Button>
+                            <Button onClick={() => { setEditPopupVisible(true) }}>Edit</Button>
                             <DeleteButton onClick={() => { setDeletePopupVisible(true) }}>Delete</DeleteButton>
                         </>
                     )}

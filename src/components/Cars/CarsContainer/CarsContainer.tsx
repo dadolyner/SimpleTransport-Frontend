@@ -52,7 +52,10 @@ const CarsContainer: React.FC = () => {
 								fuel={car.vehicle.fuel} 
 								location={car.user.place + ', ' + car.user.country} 
 								price={car.vehicle.price} 
-								duration={car.vehicle.rent_duration} 
+								duration={car.vehicle.rent_duration}
+                                licence_plate={car.vehicle.licence_plate}
+                                vin={car.vin}
+                                year={car.vehicle.year}
 							/>;
 						})}
 					</CarsListContainer>
