@@ -6,8 +6,8 @@ import Popup from '../../Popups/popup';
 import axios from '../../../api/axios';
 import Seats from '../../../helpers/Seats'
 import Duration from '../../../helpers/Duration'
-import { useNavigate } from 'react-router-dom';
 import RefreshUsersData from '../../../helpers/RefreshUserData';
+import { generateUploadURL } from '../../../api/s3';
 
 type carInfo = {
 	key: string;
@@ -30,7 +30,6 @@ type carInfo = {
 };
 
 const Car: React.FC<carInfo> =  (props: carInfo) => {
-    const navigate = useNavigate()
 	const [toastSuccess, setToastSuccess] = React.useState(false);
 	const [toastSuccessMessage, setToastSuccessMessage] = React.useState('');
 	const [toastError, setToastError] = React.useState(false);
@@ -87,6 +86,10 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
     }
     const EditACar = async(values: any) => {
         try {
+            const url = await generateUploadURL();
+            await axios.put(url, values.image, { headers: { 'Content-Type': 'image/png' } });
+            const imageUrl = url.split('?')[0];
+
             const accessToken = localStorage.getItem('simpletransport_accessToken');
             const vehicleData = {
                 seats: values.seats ? +values.seats : seats,
@@ -103,6 +106,7 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
                 modelId: values.model,
                 colorId: values.color,
                 year: year,
+                imageUrl: imageUrl
             }
             await axios.patch(`/vehicle?id=${id}`, vehicleData, { headers: { Authorization: `Bearer ${accessToken}` } }) 
 
@@ -123,16 +127,6 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
             setTimeout(() => { setToastError(false) }, 5100);
         }
     }
-    const shifters = [
-        {
-            optionValue: 'Automatic',
-            optionText: 'Automatic'
-        },
-        {
-            optionValue: 'Manual',
-            optionText: 'Manual'
-        }
-    ];
     const getDropdownData = async () => {
         try {
             const fuelData = await axios.get('/fuel');
@@ -148,6 +142,16 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
             setColors(colors);
         } catch(error) { console.log(error) }
     }
+    const shifters = [
+        {
+            optionValue: 'Automatic',
+            optionText: 'Automatic'
+        },
+        {
+            optionValue: 'Manual',
+            optionText: 'Manual'
+        }
+    ];
 
 	return (
 		<>
@@ -158,8 +162,8 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
             { popupRentVisible && <Popup
                 key={name + 'RentPopup'}
                 active={ popupRentVisible }
-                title={'Rent ' + name}
-                size={600}
+                title={'Rent ' + name + ` (Max ${Duration(duration)})`}
+                size={800}
                 theme={{ background: '#fff', border: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)', text: '#000' }}
                 labelAligment={'center'}
                 topClose={() => setRentPopupVisible(false)}
@@ -194,17 +198,20 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
                 labelAligment={'center'}
                 topClose={() => setEditPopupVisible(false)}
                 inputs={[ 
-                    { type: 'number', name: 'seats', label: 'Seats', value: seats },
-                    { type: 'dropdown', name: 'shifter', label: 'Shifter', value: shifter, options: shifters },
-                    { type: 'number', name: 'horsepower', label: 'Horsepower(HP)', value: horsepower },
-                    { type: 'number', name: 'torque', label: 'Torque(NM)', value: torque },
-                    { type: 'number', name: 'acceleration', label: 'Acceleration(KM/s)', value: speed },
-                    { type: 'dropdown', name: 'fuel', label: 'Fuel', value: fuel, options: fuels },
-                    { type: 'text', name: 'location', label: 'Location', value: location },
-                    { type: 'number', name: 'price', label: 'Price(€)', value: price },
-                    { type: 'number', name: 'rent_duration', label: 'Duration(Days)', value: duration },
-                    { type: 'dropdown', name: 'model', label: 'Model', value: duration, options: models },
-                    { type: 'dropdown', name: 'color', label: 'Color', value: duration, options: colors }
+                    { type: 'number', name: 'seats', label: 'Seats' },
+                    { type: 'dropdown', name: 'shifter', label: 'Shifter', options: shifters},
+                    { type: 'number', name: 'horsepower', label: 'Horsepower(HP)' },
+                    { type: 'number', name: 'torque', label: 'Torque(NM)' },
+                    { type: 'number', name: 'acceleration', label: 'Acceleration(KM/s)' },
+                    { type: 'text', name: 'year', label: 'Year' },
+                    { type: 'number', name: 'price', label: 'Price(€)' },
+                    { type: 'number', name: 'rent_duration', label: 'Duration(Days)' },
+                    { type: 'text', name: 'licence_plate', label: 'Licence Plate' },
+                    { type: 'text', name: 'vin', label: 'VIN' },
+                    { type: 'dropdown', name: 'model', label: 'Model', options: models },
+                    { type: 'dropdown', name: 'color', label: 'Color', options: colors },
+                    { type: 'dropdown', name: 'fuel', label: 'Fuel', options: fuels },
+                    { type: 'file', name: 'image', label: 'Image' },
                 ]}
                 bottomButtons={[ {  name: 'confirm',  text: 'Edit',  color: '#fff',  colorHover:'#de8667',  background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)',  backgroundHover: '#fff',  onClick: () => { } } ]}
                 onLoad={() => { getDropdownData() }}
@@ -228,7 +235,7 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
 				</CarSpecsInfo>
 
 				<CarPriceInfo className='CarPriceInfo'>
-					<div>{Duration(duration)}</div>
+					<div>Price for {Duration(duration)}</div>
 					<CarPrice>{price} €</CarPrice>
                     { type === 'rent' ? (
                         <Button onClick={() => { setRentPopupVisible(true) }}>Rent</Button>	

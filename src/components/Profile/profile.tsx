@@ -19,7 +19,6 @@ const Profile: React.FC = () => {
 
     const [userInfo, setUserInfo] = React.useState({} as any);
     const [usersCars, setUsersCars] = React.useState([] as any);
-    const [usersRentals, setUsersRentals] = React.useState([] as any);
     const [isLoading, setIsLoading] = React.useState(false)
     const [rentedCarsInfo, setRentedCars] = React.useState([] as any);
     const [addCarPopupVisible, setAddCarPopupVisible] = React.useState(false);
@@ -60,7 +59,6 @@ const Profile: React.FC = () => {
             setUsersCars(carsInfo);
             setUserInfo(user);
             setUsersCars(vehicle);
-            setUsersRentals(rental);
             setIsLoading(false)
 
         } catch (error) { console.log(error); }
@@ -90,12 +88,6 @@ const Profile: React.FC = () => {
             optionText: 'Manual'
         }
     ];
-
-    React.useEffect(() => { 
-        getUsersCars();
-        getDropdownData();
-    }, []);
-
     const CreateCar = async(values: any) => {
         try {
             const url = await generateUploadURL();
@@ -138,6 +130,8 @@ const Profile: React.FC = () => {
             setTimeout(() => { setToastError(false) }, 5100);
         }
     }
+
+    React.useEffect(() => {  getUsersCars(); getDropdownData(); }, []);
 
     return (
         <>
@@ -195,7 +189,7 @@ const Profile: React.FC = () => {
 
                         <CarsListContainer>
                             <ContainerHeader>MY CARS <Button onClick={() => { setAddCarPopupVisible(true) }}>Add a car</Button></ContainerHeader>
-                            {usersCars.map((car: any) => {
+                            { usersCars.map((car: any) => {
 					    		return <Car 
 					    			key={car.id}
                                     id={car.id}

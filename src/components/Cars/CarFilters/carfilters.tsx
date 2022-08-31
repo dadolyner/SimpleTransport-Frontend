@@ -46,7 +46,7 @@ const CarsFilters: React.FC<FilterProps> = (props: FilterProps) => {
                     <div></div><SectionTitle>Vrsta goriva</SectionTitle>
                     { fuels.map((fuel: any) => { 
                         return <>
-                            <Radio type="radio" name="fuel.fuel" value={fuel.fuel} onClick={(event: any) => handleChange(event)}/><RadioText>{fuel.fuel}</RadioText>
+                            <Radio key={fuel.fuel} type="radio" name="fuel.fuel" value={fuel.fuel} onClick={(event: any) => handleChange(event)}/><RadioText>{fuel.fuel}</RadioText>
                         </> 
                     })}
                 </Section>
@@ -55,8 +55,8 @@ const CarsFilters: React.FC<FilterProps> = (props: FilterProps) => {
 
                 <Section>
                     <div></div><SectionTitle>Vrsta menjalnika</SectionTitle>
-                    <Radio type="radio" name="vehicle.shifter" value="Manual" onClick={(event: any) => handleChange(event)}/><RadioText>Manual</RadioText>
-                    <Radio type="radio" name="vehicle.shifter" value="Automatic" onClick={(event: any) => handleChange(event)}/><RadioText>Automatic</RadioText>
+                    <Radio key={'Manual'} type="radio" name="vehicle.shifter" value="Manual" onClick={(event: any) => handleChange(event)}/><RadioText>Manual</RadioText>
+                    <Radio key={'Automatic'} type="radio" name="vehicle.shifter" value="Automatic" onClick={(event: any) => handleChange(event)}/><RadioText>Automatic</RadioText>
                 </Section>
 
                 <Spacer />
@@ -65,7 +65,7 @@ const CarsFilters: React.FC<FilterProps> = (props: FilterProps) => {
                     <div></div><SectionTitle>Znamka</SectionTitle>
                     {brands.map((brand: any) => { 
                         return <>
-                            <Radio type="radio" name="brand.brand" value={brand.brand} onClick={(event: any) => handleChange(event)}/><RadioText>{brand.brand}</RadioText>
+                            <Radio key={brand.brand} type="radio" name="brand.brand" value={brand.brand} onClick={(event: any) => handleChange(event)}/><RadioText>{brand.brand}</RadioText>
                         </> 
                     })}
                 </Section>

@@ -60,6 +60,7 @@ const RentedCar: React.FC<RentProps> = (props: RentProps) => {
                 userId: user.id,
                 vehicleId: vehicle.id
             }
+            console.log(rentData);
             await axios.patch(`/rental?id=${id}`, rentData, { headers: { Authorization: `Bearer ${accessToken}` } }) 
             setToastSuccessMessage(`Rent updated successfully!`);
             setToastSuccess(true);
