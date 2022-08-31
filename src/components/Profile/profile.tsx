@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axios';
+import { generateUploadURL } from '../../api/s3';
 import RefreshUsersData from '../../helpers/RefreshUserData';
 import { CarAvatar } from '../../images/ImageExporter';
 import Car from '../Cars/Car/Car';
@@ -97,6 +98,10 @@ const Profile: React.FC = () => {
 
     const CreateCar = async(values: any) => {
         try {
+            const url = await generateUploadURL();
+            await axios.put(url, values.image, { headers: { 'Content-Type': 'image/png' } });
+            const imageUrl = url.split('?')[0];
+
             const accessToken = localStorage.getItem('simpletransport_accessToken');
             const vehicleData = {
                 seats: +values.seats,
@@ -112,6 +117,7 @@ const Profile: React.FC = () => {
                 modelId: values.model,
                 colorId: values.color,
                 fuelId: values.fuel,
+                imageUrl: imageUrl
             }
             await axios.post(`/vehicle`, vehicleData, { headers: { Authorization: `Bearer ${accessToken}` } }) 
 
@@ -162,7 +168,8 @@ const Profile: React.FC = () => {
                     { type: 'text', name: 'vin', label: 'VIN' },
                     { type: 'dropdown', name: 'model', label: 'Model', options: models },
                     { type: 'dropdown', name: 'color', label: 'Color', options: colors },
-                    { type: 'dropdown', name: 'fuel', label: 'Fuel', options: fuels },                
+                    { type: 'dropdown', name: 'fuel', label: 'Fuel', options: fuels },
+                    { type: 'file', name: 'image', label: 'Image' },
                 ]}
                 bottomButtons={[ {  name: 'confirm',  text: 'Confirm',  color: '#fff',  colorHover:'#de8667',  background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)',  backgroundHover: '#fff',  onClick: () => {} } ]}
                 RetrieveValues={(values) => { CreateCar(values) }}

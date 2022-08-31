@@ -65,6 +65,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
     
     const [dataOutput, setDataOutput] = React.useState({} as any);
     const handleChange = (event: any) => setDataOutput((prevState: any) => ({ ...prevState, [event.target.name]: event.target.value }));
+    const handleFileChange = (event: any) => setDataOutput((prevState: any) => ({ ...prevState, [event.target.name]: event.target.files[0] }));
 	
 	const PopupConfirm = () => { return dataOutput; }
 
@@ -185,7 +186,7 @@ const Popup: React.FC<DefaultPopupSettings> = (props: DefaultPopupSettings) => {
 								return (
                                     <>
 								    	<Label key={label} className={labelAligment} style={{color: text}}>{label}</Label>
-								    	<Input key={name} id={name} type={type} name={name} value={dataOutput[name] ? dataOutput[name] : value} placeholder={placeholder} onChange={(e) => handleChange(e)} style={{ backgroundColor: background, color: text, borderColor: border }}/>
+								    	<Input key={name} id={name} type={type} name={name} placeholder={placeholder} onChange={(e) => handleFileChange(e)} style={{ backgroundColor: background, color: text, borderColor: border }}/>
 								    </>
                                 );
 

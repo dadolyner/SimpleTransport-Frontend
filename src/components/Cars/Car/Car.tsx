@@ -6,6 +6,7 @@ import Popup from '../../Popups/popup';
 import axios from '../../../api/axios';
 import Seats from '../../../helpers/Seats'
 import Duration from '../../../helpers/Duration'
+import { useNavigate } from 'react-router-dom';
 import RefreshUsersData from '../../../helpers/RefreshUserData';
 
 type carInfo = {
@@ -29,6 +30,7 @@ type carInfo = {
 };
 
 const Car: React.FC<carInfo> =  (props: carInfo) => {
+    const navigate = useNavigate()
 	const [toastSuccess, setToastSuccess] = React.useState(false);
 	const [toastSuccessMessage, setToastSuccessMessage] = React.useState('');
 	const [toastError, setToastError] = React.useState(false);
@@ -71,9 +73,9 @@ const Car: React.FC<carInfo> =  (props: carInfo) => {
             const accessToken = localStorage.getItem('simpletransport_accessToken');
             await axios.delete(`/vehicle?id=${id}`, { headers: { Authorization: `Bearer ${accessToken}` } }) 
 
-            setToastSuccessMessage(`Car ${name} successfully rented!`);
+            setToastSuccessMessage(`Car ${name} successfully deleted!`);
             setToastSuccess(true);
-            setTimeout(() => { setToastSuccess(false); RefreshUsersData(); }, 5100);
+            setTimeout(() => { setToastSuccess(false); RefreshUsersData() }, 5100);
             
             setDeletePopupVisible(false);
 
