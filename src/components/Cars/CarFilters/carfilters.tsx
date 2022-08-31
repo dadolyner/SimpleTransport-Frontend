@@ -74,7 +74,7 @@ const CarsFilters: React.FC<FilterProps> = (props: FilterProps) => {
             <Spacer />
 
             <ApplyFilters onClick={() => { backToTop(); FilteredData(dataOutput) }}>Use filters</ApplyFilters>
-            <DeleteButton onClick={() => { backToTop(); FilteredData("") }}>Reset filters</DeleteButton>
+            <DeleteButton onClick={() => { backToTop(); FilteredData(""); window.location.reload(); }}>Reset filters</DeleteButton>
 
         </Container>
         </>
