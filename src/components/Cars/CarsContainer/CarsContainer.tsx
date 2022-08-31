@@ -15,15 +15,20 @@ const CarsContainer: React.FC = () => {
 
     const RetrieveCars = async (filters: any) => {
         try {
+            const userInfo = JSON.parse(localStorage.getItem('simpletransport_userInfo'))
+            const { user } = userInfo
+
             setIsLoading(true)
             if(filters) {
                 const queryString = Object.keys(filters).map((key) => { return `${key}=${filters[key]}` }).join('&')
                 const carsResponse = await axios.get(`/vehicle?${queryString}`)
-                setCars(carsResponse.data)
+                const filteredCars = carsResponse.data.filter((car: any) => car.user.id !== user.id )
+                setCars(filteredCars)
                 setIsLoading(false)
             } else {
                 const carsResponse = await axios.get('/vehicle')
-                setCars(carsResponse.data)
+                const filteredCars = carsResponse.data.filter((car: any) => car.user.id !== user.id )
+                setCars(filteredCars)
                 setIsLoading(false)
             }
         } catch (error) { console.log(error.response.data.message) }
