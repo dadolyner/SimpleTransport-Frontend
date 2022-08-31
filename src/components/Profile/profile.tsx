@@ -56,7 +56,6 @@ const Profile: React.FC = () => {
             })
 
             setRentedCars(carsInfo);
-            setUsersCars(carsInfo);
             setUserInfo(user);
             setUsersCars(vehicle);
             setIsLoading(false)
@@ -202,7 +201,7 @@ const Profile: React.FC = () => {
 					    			torque={car.torque} 
 					    			speed={car.acceleration} 
 					    			fuel={car.fuel} 
-					    			location={userInfo.place + ', ' + car.country} 
+					    			location={userInfo.place + ', ' + userInfo.country} 
 					    			price={car.price} 
 					    			duration={car.rent_duration}
                                     licence_plate={car.licence_plate}
