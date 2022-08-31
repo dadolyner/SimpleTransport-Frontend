@@ -125,7 +125,8 @@ const RentedCar: React.FC<RentProps> = (props: RentProps) => {
                 labelAligment={'center'}
                 topClose={() => setDeleteRentPopupVisible(false)}
                 inputs={[ { type: 'html', label: '', name: 'confirmHtml', html: '<p style="font-size: 20px; text-align: center;">Are you sure you want to delete rent for this car?</p>' } ]}
-                bottomButtons={[ {  name: 'confirm',  text: 'Delete',  color: '#fff',  colorHover:'#de8667',  background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)',  backgroundHover: '#fff',  onClick: () => { DeleteRent() } } ]}
+                bottomButtons={[ {  name: 'confirm',  text: 'Delete',  color: '#fff',  colorHover:'#de8667',  background: 'linear-gradient(240deg, #efb467 0%, #de8667 100%)',  backgroundHover: '#fff',  onClick: () => {} } ]}
+                RetrieveValues={(values) => { DeleteRent() }}
             />}
 
             <RentedCarContainer>
