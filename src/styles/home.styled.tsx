@@ -20,11 +20,19 @@ export const Container = styled.div`
 export const Header = styled.h1`
     margin-top: 100px;
     font-size: 64px;
+
+    @media only screen and (max-width: 700px) {
+        font-size: 32px;
+    }
 `;
 
 export const Content = styled.div`
     margin-top: 20px;
     font-size: 24px;
+
+    @media only screen and (max-width: 700px) {
+        font-size: 18px;
+    }
 `;
 
 export const Image = styled.img<ImageProps>`

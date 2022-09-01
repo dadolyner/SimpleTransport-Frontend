@@ -77,13 +77,26 @@ export const Hamburger = styled.div`
 	cursor: pointer;
 	width: 40px;
 	height: 30px;
-	justify-self: end;
+	justify-self: end; 
 	span {
 		height: 2px;
 		width: 25px;
 		background: #000;
 		margin-bottom: 5px;
 	}
+
+    &.opened {
+        & > span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        & > span:nth-child(2) {
+            opacity: 0;
+        }
+        & > span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+    }
+
 	@media screen and (max-width: 740px) {
 		display: flex;
 		justify-content: center;
@@ -91,4 +104,6 @@ export const Hamburger = styled.div`
 	}
 `;
 
-export const Lines = styled.span``;
+export const Lines = styled.span`
+    transition: all 0.3s ease;
+`;

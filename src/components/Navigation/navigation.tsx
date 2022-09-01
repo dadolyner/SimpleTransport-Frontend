@@ -35,7 +35,7 @@ const Navigation: React.FC = () => {
 			<Container>
 				<NavigationLogo onClick={() => navigate("/")}><img src={Logo} height={"40px"} width={"60px"} alt="Logo"/></NavigationLogo>
 
-				<Hamburger onClick={() => setIsOpen(!isOpen)}>
+				<Hamburger className={isOpen ? 'opened' : ''} onClick={() => setIsOpen(!isOpen)}>
 					<Lines />
 					<Lines />
 					<Lines />
