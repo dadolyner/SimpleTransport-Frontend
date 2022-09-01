@@ -6,8 +6,22 @@ import { Logo } from '../../images/ImageExporter';
 const Navigation: React.FC = () => {
 	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = React.useState(false);
-
-    const userLoggedIn = localStorage.getItem('simpletransport_userLoggedIn');
+    const [userLoggedIn, setUserLoggedIn] = React.useState(false);
+    const [userInfo, setUserInfo] = React.useState({} as any);
+    
+    const RetrieveUserInfo = () => {
+        try {
+            const userLoggedIn = localStorage.getItem('simpletransport_userLoggedIn');
+            const userInfo = JSON.parse(localStorage.getItem('simpletransport_userInfo'));
+            const { user } = userInfo;
+            
+            if (userLoggedIn === 'true') {
+                setUserLoggedIn(true);
+                setUserInfo(user);
+            }
+        } catch (error) { console.log(error); }
+    }
+    React.useEffect(() => { RetrieveUserInfo() }, []);
     
     const Logout = () => {
         localStorage.removeItem('simpletransport_userLoggedIn');
@@ -27,14 +41,15 @@ const Navigation: React.FC = () => {
 					<Lines />
 				</Hamburger>
 
-				<NavigationItems isOpen={isOpen} numberOfItems={ userLoggedIn === 'true' ? 4 : 3}>
+				<NavigationItems isOpen={isOpen} numberOfItems={ userLoggedIn ? (userInfo.email === 'skulj.david@gmail.com' ? 5 : 4) : 3}>
 					<Item onClick={() => navigate("/")}>Home</Item>
                     { 
-                        userLoggedIn === 'true' ? (
+                        userLoggedIn ? (
                             <>
                                 <Item onClick={() => navigate("/cars")}>Cars</Item>
                                 <Item onClick={() => navigate("/profile")}>Profile</Item>
                                 <Item onClick={() => Logout()}>Logout</Item>
+                                <Item onClick={() => navigate("/admin")}>Admin</Item>
                             </>
                         ) : (
                             <>
