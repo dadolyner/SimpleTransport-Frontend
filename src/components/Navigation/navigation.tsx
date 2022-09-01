@@ -19,7 +19,10 @@ const Navigation: React.FC = () => {
                 setUserLoggedIn(true);
                 setUserInfo(user);
             }
-        } catch (error) { console.log(error); }
+        } catch (error) { 
+            console.log(error);
+            setUserLoggedIn(false);
+        }
     }
     React.useEffect(() => { RetrieveUserInfo() }, []);
     
@@ -28,7 +31,7 @@ const Navigation: React.FC = () => {
         localStorage.removeItem('simpletransport_accessToken');
         localStorage.removeItem('simpletransport_userInfo');
         navigate('/');
-        RetrieveUserInfo();
+        setUserLoggedIn(false);
     }
 
 	return (
