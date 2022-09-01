@@ -6,14 +6,13 @@ import { Logo } from '../../images/ImageExporter';
 const Navigation: React.FC = () => {
 	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = React.useState(false);
-    const [userLoggedIn, setUserLoggedIn] = React.useState(false);
-    
+    const userLoggedIn = localStorage.getItem('simpletransport_userLoggedIn');
+
     const Logout = () => {
         localStorage.removeItem('simpletransport_userLoggedIn');
         localStorage.removeItem('simpletransport_accessToken');
         localStorage.removeItem('simpletransport_userInfo');
         navigate('/');
-        setUserLoggedIn(false);
         window.location.reload();
     }
 
@@ -28,15 +27,14 @@ const Navigation: React.FC = () => {
 					<Lines />
 				</Hamburger>
 
-				<NavigationItems isOpen={isOpen} numberOfItems={ userLoggedIn ? 4 : 3}>
+				<NavigationItems isOpen={isOpen} numberOfItems={ userLoggedIn === 'true' ? 3 : 2}>
 					<Item onClick={() => navigate("/")}>Home</Item>
                     { 
-                        userLoggedIn ? (
+                        userLoggedIn === 'true' ? (
                             <>
                                 <Item onClick={() => navigate("/cars")}>Cars</Item>
                                 <Item onClick={() => navigate("/profile")}>Profile</Item>
                                 <Item onClick={() => Logout()}>Logout</Item>
-                                <Item onClick={() => navigate("/admin")}>Admin</Item>
                             </>
                         ) : (
                             <>
