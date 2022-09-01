@@ -48,7 +48,7 @@ export const NavigationItems = styled.div<isOpened>`
 		overflow: hidden;
 		flex-direction: column;
 		width: 100%;
-		max-height: ${({ isOpen }) => (isOpen ? '300px' : '0')};
+		max-height: ${({ isOpen }) => (isOpen ? '400px' : '0')};
 		transition: all 0.3s ease;
 		grid-column: 1 / span 2;
 	}
