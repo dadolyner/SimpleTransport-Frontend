@@ -28,6 +28,7 @@ const Navigation: React.FC = () => {
         localStorage.removeItem('simpletransport_accessToken');
         localStorage.removeItem('simpletransport_userInfo');
         navigate('/');
+        RetrieveUserInfo();
     }
 
 	return (
