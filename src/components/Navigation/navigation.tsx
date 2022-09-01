@@ -32,6 +32,7 @@ const Navigation: React.FC = () => {
         localStorage.removeItem('simpletransport_userInfo');
         navigate('/');
         setUserLoggedIn(false);
+        window.location.reload();
     }
 
 	return (
