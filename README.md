@@ -66,7 +66,7 @@ REACT_APP_SERVER_IP
 #### Run the application
 
 ```bash
-# development
+# Run the application
 $ npm run start
 ```
 
