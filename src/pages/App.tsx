@@ -9,6 +9,7 @@ import ResetPassword from '../components/Forms/ForgotPassword/ResetPassword';
 import ForgotPassword from '../components/Forms/ForgotPassword/ForgotPassword';
 import Profile from '../components/Profile/profile';
 import Admin from './Admin';
+import Home from './Home';
 
 const App: React.FC = () => {
 	return (
@@ -16,7 +17,8 @@ const App: React.FC = () => {
 			<BrowserRouter>
 				<Routes>
                     <Route path="/admin" element={<Admin />} />
-					<Route path="/" element={<CarsContainer />} />
+					<Route path="/" element={<Home />} />
+					<Route path="/cars" element={<CarsContainer />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/options" element={<Options />} />

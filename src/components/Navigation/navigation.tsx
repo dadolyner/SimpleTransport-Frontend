@@ -27,16 +27,20 @@ const Navigation: React.FC = () => {
 					<Lines />
 				</Hamburger>
 
-				<NavigationItems isOpen={isOpen} numberOfItems={ userLoggedIn === 'true' ? 3 : 2}>
+				<NavigationItems isOpen={isOpen} numberOfItems={ userLoggedIn === 'true' ? 4 : 3}>
 					<Item onClick={() => navigate("/")}>Home</Item>
                     { 
                         userLoggedIn === 'true' ? (
                             <>
+                                <Item onClick={() => navigate("/cars")}>Cars</Item>
                                 <Item onClick={() => navigate("/profile")}>Profile</Item>
                                 <Item onClick={() => Logout()}>Logout</Item>
                             </>
                         ) : (
-                            <Item onClick={() => navigate("/login")}>Login</Item>
+                            <>
+                                <Item onClick={() => navigate("/register")}>Register</Item>
+                                <Item onClick={() => navigate("/login")}>Login</Item>
+                            </>
                         )
                     }
 				</NavigationItems>
