@@ -7,24 +7,6 @@ const Navigation: React.FC = () => {
 	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = React.useState(false);
     const [userLoggedIn, setUserLoggedIn] = React.useState(false);
-    const [userInfo, setUserInfo] = React.useState({} as any);
-    
-    const RetrieveUserInfo = () => {
-        try {
-            const userLoggedIn = localStorage.getItem('simpletransport_userLoggedIn');
-            const userInfo = JSON.parse(localStorage.getItem('simpletransport_userInfo'));
-            const { user } = userInfo;
-            
-            if (userLoggedIn === 'true') {
-                setUserLoggedIn(true);
-                setUserInfo(user);
-            }
-        } catch (error) { 
-            console.log(error);
-            setUserLoggedIn(false);
-        }
-    }
-    React.useEffect(() => { RetrieveUserInfo() }, []);
     
     const Logout = () => {
         localStorage.removeItem('simpletransport_userLoggedIn');
@@ -46,7 +28,7 @@ const Navigation: React.FC = () => {
 					<Lines />
 				</Hamburger>
 
-				<NavigationItems isOpen={isOpen} numberOfItems={ userLoggedIn ? (userInfo.email === 'skulj.david@gmail.com' ? 5 : 4) : 3}>
+				<NavigationItems isOpen={isOpen} numberOfItems={ userLoggedIn ? 4 : 3}>
 					<Item onClick={() => navigate("/")}>Home</Item>
                     { 
                         userLoggedIn ? (
